@@ -1,3 +1,5 @@
-# demos.github.io
+## Demos for Mr. Zucca's AP Comp Sci
 
-Ugh
+(./binary.html)
+
+(./hexpic.html)
