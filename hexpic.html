@@ -1,0 +1,113 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<title>HexPic</title>
+	<meta charset="UTF-8" />
+	
+	<style>
+		
+		.pic
+		{
+			border:1px solid #d3d3d3;
+		}
+		
+	</style>
+	
+	<script language="JavaScript">
+	var bigCanvas;
+	var smCanvas;
+	var bigCtx;
+	var smCtx;
+	
+	function init()
+	{
+		
+		bigCanvas = document.getElementById("big");
+		bigCtx = bigCanvas.getContext("2d");
+		
+
+		smCanvas = document.getElementById("small");
+		smCtx = smCanvas.getContext("2d");
+	}
+	
+	function doButton()
+	{
+		
+		var code = document.getElementById("hexstring").value;
+		
+		// slap some zeros on so we never run past the end of the string
+		code = code + "0000000000000000";
+		
+		// format the code and put it back into the window
+		// TODO
+		
+		bigCanvas.width = bigCanvas.width;
+		smCanvas.width = smCanvas.width;
+		
+		
+		drawPic( bigCtx, code, 50 );
+		drawPic( smCtx, code, 5 );
+	}
+	
+	function drawPic( context, codeStr, width )
+	{
+		
+		// remove spaces
+		var code = codeStr.replace(/\s/g, "");
+		
+		for( var r=0; r<8; r++ )
+		{
+			var rowCode = parseInt( code.substr(r*2, 2 ), 16 );
+			var p = 1;
+			
+			for( var c=0; c<8; c++ )
+			{
+				if ( ( rowCode & p ) == p )
+				{
+					context.fillStyle = "black";
+					context.rect(width*7 - width*c, 0 + width*r, width, width);
+					context.fill();
+				}
+				
+				p *= 2;
+			}
+		}
+		
+	}
+	
+	function doKey(elem)
+	{
+		alert( elem.value );
+	}
+	</script>
+	
+</head>
+
+<body onload="init()">
+
+<table border="0">
+<tr>
+	<td valign="top">
+		<canvas width="40" height="40" id="small" class="pic"></canvas>
+	</td>
+	
+	<td valign="top">
+		<canvas width="400" height="400" id="big" class="pic"></canvas>
+	</td>
+<tr>
+
+<tr>
+	<td>&nbsp;</td>
+	<td align="center">
+		Enter a string of hex values:<br />
+		<form onsubmit="doButton(); return false;">
+		<input type="text" size="32" id="hexstring"></input>
+		</form><br />
+		<button name="draw" id="draw" onclick="doButton();">Draw it</button>
+	</td>
+<tr>
+</table>
+
+</body>
+</html>
